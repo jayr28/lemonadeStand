@@ -9,7 +9,7 @@ namespace LemonadeStand
     class Inventory
     {
         public int PlayerId;
-        public List<Item> Items;
+        public List<Item>items;
         public string Day;
     }   
 }
