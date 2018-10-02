@@ -76,7 +76,7 @@ namespace LemonadeStand
         {
 
             Stopwatch stopWatch = new Stopwatch();
-            DisplayTimer(stopWatch, true);
+            DisplayTimer(stopWatch, true); 
             Stopwatch NewStopWatch = new Stopwatch();
 
             int TotalNumberOfCustomers = 0;
@@ -199,7 +199,7 @@ namespace LemonadeStand
             {
                 stopWatch.Start();
                 Console.SetCursorPosition(0, 2);
-                Console.WriteLine("Time: " + stopWatch.ElapsedTicks);
+                //Console.WriteLine("Time: " + stopWatch.ElapsedTicks);
             }
 
         }
