@@ -14,30 +14,71 @@ namespace LemonadeStand
         public List<Item> y = new List<Item>();
         public List<Supply> SupplyList= new List<Supply>();
         public List<Customer> CustomerList = new List<Customer>();
-
+        private double InitialBudget = 20;
 
         public void RunGame()
         {
+            bool playAgain = true;
+            while (playAgain)
+            {
+                DisplayInstruction();
+                Days days = new Days();
+                InstantiateDays(ref days);
+                InstantiateSupply();
+                Inventory inventory = new Inventory();
+                Player player = new Player();
+                player.Wallet = InitialBudget;
+                foreach (var day in days.DayList)
+                {
+                    Console.SetCursorPosition(0, 0);
+                    Console.WriteLine("Weather - Day: " + day.DOW + " Temp: " + day.Temperature + " Forecast: " + day.Forecast);
+
+                    DisplayWallet(player);
+                    GetSupply(ref inventory, ref player);
+                    DisplayWallet(player);
+                    SetPriceForLemonade(ref inventory, ref player);
+                    StartSelling(day, player, ref inventory);
+                    DisplayInventory(inventory);
+                }
 
 
-            
-            
-            
-            Console.WriteLine("Welcome to Lemonade Stand Game");
-            Days days = new Days();
-            InstantiateDays(ref days);
-            InstantiateSupply();
-            Inventory inventory = new Inventory();
-            Player player = new Player();
-            DisplayWallet(player);
-            GetSupply(ref inventory, ref player);
-            DisplayWallet(player);
-            SetPriceForLemonade(ref inventory, ref player);
-            
+                Console.SetCursorPosition(0, 18);
+                Console.WriteLine("                                                                    ");
+                Console.WriteLine("**************** Initial Money :" + InitialBudget + "***************");
+                if ((player.Wallet - InitialBudget) > 0)
+                {
+                    Console.SetCursorPosition(0, 19);
+                    Console.WriteLine("                                                                               ");
+                    Console.WriteLine("**************** Profit :" + (player.Wallet - InitialBudget) + "***************");
+                }
+                else
+                {
+                    Console.SetCursorPosition(0, 19);
+                    Console.WriteLine("                                                                             ");
+                    Console.WriteLine("**************** Loss :" + (player.Wallet - InitialBudget) + "***************");
+                }
+
+                Console.WriteLine("Play again (Y/N)?");
+                string again = Console.ReadLine();
+                Console.Clear();
+                if (again.ToUpper()=="N")
+                {
+                    Console.WriteLine("Thanks for playing. Goodbye.");
+                    Console.ReadLine();
+                    playAgain = false;
+                }
+            }
+
+
+        }
+
+        private void StartSelling(Day day, Player player,  ref Inventory inventory)
+        {
+
             Stopwatch stopWatch = new Stopwatch();
             DisplayTimer(stopWatch, true);
             Stopwatch NewStopWatch = new Stopwatch();
-            
+
             int TotalNumberOfCustomers = 0;
             Random rnd = new Random();
             NewStopWatch.Start();
@@ -47,62 +88,109 @@ namespace LemonadeStand
             bool loopx = true;
             while (loopx)// 8 minute is equal to 8 hours
             {
-                
 
                 if (NewStopWatch.Elapsed.Seconds == 3) //1 minute is equal to one hour
                 {
+                    
+                    DrawActivity();
                     GenerateNumberOfCustomer(rnd);
 
-                    foreach(var customer in CustomerList)
+                    foreach (var customer in CustomerList)
                     {
-                        customer.CustomerBuyLemonade(days.WeatherList.ToArray()[0], player);
+                        customer.CustomerBuyLemonade(day, player, ref inventory);
                     }
 
                     NewStopWatch = new Stopwatch();
                     NewStopWatch.Start();
 
                     TotalNumberOfCustomers += CustomerList.Count();
-                                 
+
                     CustomerList.Clear();
                     if (stopWatch.Elapsed.Seconds >= 24)
                     {
                         loopx = false;
                     }
-                }           
-                
+                }
+
             }
 
             Console.SetCursorPosition(0, 60);
             Console.WriteLine("Total Customers: " + TotalNumberOfCustomers);
-            
+
             Console.SetCursorPosition(10, 60);
-            
+
+
             DisplayWallet(player);
+        }
+
+        private void DisplayInstruction()
+        {
+            string rules = "Welcome to Lemonade Stand! \n" +
+            "Your goal is to make as much money as you can in 7 days.\n" +
+            "Buy cups, lemons, sugar and ice cubes, then set your recipe based on the weather\n" +
+            "and conditions. Then, set your price and sell your lemonade at the stand.\n" +
+            "At then end of the game, you will see how much money you made. Write it down \n" +
+            "and play again to try and beat your score!";
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine(rules);
             Console.ReadLine();
+            Console.Clear();
+        }
+
+        private void DrawActivity()
+        {
+                     
+            int ygoingleft = 100;
+            for (int ygoingright = 0; ygoingright < 60; ygoingright++)
+            {
+                Console.SetCursorPosition(ygoingright,12);
+                Console.WriteLine((char)177);
+
+                Console.SetCursorPosition(ygoingright, 12);
+                Console.WriteLine(" ");
+
+                Console.SetCursorPosition(ygoingright+1, 12);
+                Console.WriteLine((char)177);
+
+
+                Console.SetCursorPosition(ygoingleft- ygoingright, 12);
+                Console.WriteLine((char)177);
+                
+                Console.SetCursorPosition(ygoingleft - ygoingright, 12);
+                Console.WriteLine(" ");
+                
+                Console.SetCursorPosition(ygoingleft - ygoingright -1, 12);
+                Console.WriteLine((char)177);
+
+                Stopwatch NewStopWatch = new Stopwatch();
+                NewStopWatch.Start();
+                bool isLoop = true;
+                while (isLoop)
+                {
+                    if (NewStopWatch.Elapsed.Milliseconds == 100)
+                    {
+                        isLoop = false;
+                    }
+                }
+
+                NewStopWatch.Stop();
+            }
+            Console.SetCursorPosition(0, 12);
+            Console.WriteLine("                                                                               ");
 
         }
 
         private void InstantiateDays(ref Days days)
         {
-            
+           
             days.Initialize();
-            Console.SetCursorPosition(0,0);
-            Console.WriteLine("Weather - Day: " + days.DayList.ToArray()[0].ToString() + " Temp: " + days.WeatherList.ToArray()[0].temperature + " Forecast: " + days.WeatherList.ToArray()[0].forecast);
-
-            //for (int i=0; i < 7; i++)
-            //{
-            //  Console.SetCursorPosition(0,75);      
-            //    Console.WriteLine("Day: " + days.DayList.ToArray()[i].ToString() + " Temp: " + days.WeatherList.ToArray()[i].temperature + " Forecast: " + days.WeatherList.ToArray()[i].forecast) ;
-
-            //}
-
-
+          
         }
 
         private void DisplayWallet(Player player)
         {
             Console.SetCursorPosition(0, 1);
-            Console.WriteLine("Player Money: " + player.wallet);
+            Console.WriteLine("Player Money: " + player.Wallet);
         }
 
         private void DisplayTimer(Stopwatch stopWatch, bool StartGame)
@@ -151,8 +239,11 @@ namespace LemonadeStand
 
         private void GetSupply(ref Inventory inventory, ref Player player)
         {
-                      
-            inventory.items = new List<Item>();
+            if (inventory.items is null )
+            {
+                inventory.items = new List<Item>();
+            }
+            
             bool MoreSupply = true;
             while(MoreSupply)
             {
@@ -163,10 +254,10 @@ namespace LemonadeStand
                 Console.WriteLine("press 3 for Cups of sugar");
                 Console.WriteLine("press 4 for Ice cubes");
 
-
-                Console.WriteLine("Which one would you like to choose? (1,2,3,4)");
-                string id = Console.ReadLine();
-
+                string id ="";
+                Console.WriteLine("Which one would you like to choose? (1,2,3,4,X)");
+                id = AskQuestion(4);
+                
 
                 var supplyByIdList = SupplyList.Where(x => x.Id == id);
 
@@ -188,8 +279,11 @@ namespace LemonadeStand
                     Console.WriteLine(i + ". " + supply.Quantity + unitDesc + supply.Description + " for " + supply.Price + ".");
                     i += 1;
                 }
-                Console.WriteLine("Which one would you like to choose? (1,2,3)");
-                string supplyOption = Console.ReadLine();
+                Console.WriteLine("Which one would you like to choose? (1,2,3,X)");
+
+                string supplyOption = "";
+
+                supplyOption = AskQuestion(3);
 
 
                 //add to imventory
@@ -204,14 +298,24 @@ namespace LemonadeStand
                 {
                     if (i == int.Parse(supplyOption))
                     {
-                        Item itemSelected = new Item();
-                        itemSelected.ItemDesc = supply.Description;
-                        itemSelected.ItemId = supply.Id;
-                        itemSelected.Price = supply.Price;
-                        player.wallet -= supply.Price;
-                        itemSelected.Quantity = supply.Quantity;
-                        inventory.items.Add(itemSelected);
-                        
+                        if (inventory.items.Where(x => x.ItemId == supply.Id).ToList().Count == 0)
+                        {
+                            Item itemSelected = new Item();
+                            itemSelected.ItemDesc = supply.Description;
+                            itemSelected.ItemId = supply.Id;
+                            itemSelected.Price = supply.Price;
+                            player.Wallet -= supply.Price;
+                            itemSelected.Quantity += supply.Quantity;
+                            inventory.items.Add(itemSelected);
+
+                        }
+                        else
+                        {
+                            player.Wallet -= supply.Price;
+                            inventory.items.Where(x => x.ItemId == supply.Id).ToArray()[0].Quantity += supply.Quantity;                         
+                        }
+
+
                     }
                     i += 1;
                 }
@@ -236,15 +340,38 @@ namespace LemonadeStand
                     }
                 }
 
-
-                DisplayInventory(inventory);
                 DisplayClearScreenSection();
+                DisplayInventory(inventory);
+                
                 Console.SetCursorPosition(8, 0);
 
             }
            
            
         
+        }
+
+        private string  AskQuestion(int numberOfOptions)
+        {
+            bool isAnswerCorrect = false;
+            List<string> answerInput = new List<string>();
+            for (int i = 1; i <= numberOfOptions; i++)
+            {
+                answerInput.Add(i.ToString());            
+            }
+            answerInput.Add("X");
+
+            string id = "";
+            while (!isAnswerCorrect)
+            {
+                id = Console.ReadLine();
+                if (answerInput.Contains(id.ToUpper()))
+                {
+                    isAnswerCorrect = true;
+                }
+                else { Console.WriteLine("Invalid option."); }
+            }
+            return id;
         }
 
         public void SetPriceForLemonade(ref Inventory inventory, ref Player player)
@@ -261,8 +388,6 @@ namespace LemonadeStand
         {
 
             DisplayBox(inventory);
-        
-
 
             int screenLocation = 1;
             foreach (var item in inventory.items)
@@ -298,11 +423,12 @@ namespace LemonadeStand
 
             }
         }
+
+
          private void GenerateNumberOfCustomer(Random rnd)
         {
 
-
-            int NumberOfCustomers = rnd.Next(1, 5);
+            int NumberOfCustomers = rnd.Next(1, 20);
             
             for (int i=1; i < NumberOfCustomers; i++)
             {

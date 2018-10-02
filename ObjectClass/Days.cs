@@ -9,57 +9,66 @@ namespace LemonadeStand
     public class Days
     {
 
-        //public string Day;
-        //public string weather;
-        //public string temperature;
-
-        public List<string> DayList;
-        public List<Weather> WeatherList;
-
+        public List<Day> DayList;
+      
         public void Initialize()
         {
             //Init Day of the week list
-            DayList = new List<string>();
-            DayList.Add("Monday");
-            DayList.Add("Tuesday");
-            DayList.Add("Wednesday");
-            DayList.Add("Thursday");
-            DayList.Add("Friday");
-            DayList.Add("Saturday");
-            DayList.Add("Sunday");
-
-            // init weather list
-            WeatherList = new List<Weather>();
+            DayList = new List<Day>();
             Random rnd = new Random();
             for (int i = 1; i <= 7; i++)
             {
-                Weather weather = new Weather();
-                
-                weather.temperature = rnd.Next(50, 96);
 
+                Day day = new Day();
+                switch (i)
+                {
+                    case 1: 
+                        day.DOW = "Monday";
+                        break;
+                    case 2:
+                        day.DOW = "Tuesday";
+                        break;
+                    case 3:
+                        day.DOW = "Wednesday";
+                        break;
+                    case 4:
+                        day.DOW = "Thursday";
+                        break;
+                    case 5:
+                        day.DOW = "Friday";
+                        break;
+                    case 6:
+                        day.DOW = "Saturday";
+                        break;
+                    case 7:
+                        day.DOW = "Sunday";
+                        break;
+                }
+         
+                day.Temperature = rnd.Next(50, 96);
                 int forecastSwitch = rnd.Next(1, 5);
                 switch (forecastSwitch)
                 {
                     case 1:
-                        weather.forecast = "Sunny";
+                        day.Forecast = "Sunny";
                         break;
                     case 2:
-                        weather.forecast = "Partly Cloudy";
+                        day.Forecast = "Partly Cloudy";
                         break;
                     case 3:
-                        weather.forecast = "Hazy";
+                        day.Forecast = "Hazy";
                         break;
                     case 4:
-                        weather.forecast = "Cloudy";
+                        day.Forecast = "Cloudy";
                         break;
                     case 5:
-                        weather.forecast = "Rainy";
+                        day.Forecast = "Rainy";
                         break;
 
                 }
-
-                WeatherList.Add(weather);
-             }
+                DayList.Add(day);
+            }
+            
         }
     }
 }

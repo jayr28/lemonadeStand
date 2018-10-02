@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {   
+    public class Day
+    {       
+        public string DOW;
+        public int Temperature;
+        public string Forecast;
 
-            Game game = new Game();
-            game.RunGame();
-        }
     }
 }

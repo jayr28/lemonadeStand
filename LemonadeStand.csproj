@@ -45,13 +45,12 @@
   <ItemGroup>
     <Compile Include="Game.cs" />
     <Compile Include="ObjectClass\Customer.cs" />
+    <Compile Include="ObjectClass\Day.cs" />
     <Compile Include="ObjectClass\Days.cs" />
     <Compile Include="ObjectClass\Inventory.cs" />
     <Compile Include="ObjectClass\Item.cs" />
-    <Compile Include="ObjectClass\Recipe.cs" />
     <Compile Include="ObjectClass\Supply.cs" />
     <Compile Include="ObjectClass\Player.cs" />
-    <Compile Include="ObjectClass\Weather.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

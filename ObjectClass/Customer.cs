@@ -17,13 +17,22 @@ namespace LemonadeStand
 
         public double MaxPrice;
 
-        public bool CustomerBuyLemonade(Weather weather, Player player)
+        public bool CustomerBuyLemonade(Day day, Player player, ref Inventory inventory)
         {
-            if (weather.temperature >= MinTemperature && weather.temperature <= MaxTemperature )
+            if (day.Temperature >= MinTemperature && day.Temperature <= MaxTemperature )
             {
-                if(player.PriceForLemonade >= MinPrice && player.PriceForLemonade <= MaxPrice)
+                if (player.PriceForLemonade >= MinPrice && player.PriceForLemonade <= MaxPrice)
                 {
-                    player.wallet += player.PriceForLemonade;
+                    if (inventory.items.Where(x => x.ItemId == "1").ToArray()[0].Quantity == 0 ||
+                        inventory.items.Where(x => x.ItemId == "2").ToArray()[0].Quantity == 0 ||
+                        inventory.items.Where(x => x.ItemId == "3").ToArray()[0].Quantity == 0 ||
+                        inventory.items.Where(x => x.ItemId == "4").ToArray()[0].Quantity == 0)
+                    {
+                        return false;
+                    }
+                    player.Wallet += player.PriceForLemonade;
+                    inventory.items.Where(x => x.ItemId == "1").ToArray()[0].Quantity -= 1; //cups to be deducted with 1
+                    inventory.items.Where(x => x.ItemId == "4").ToArray()[0].Quantity -= 4; //ice cubes to be deducted with 4
                     return true;
                 }
             }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LemonadeStand.ObjectClass;
+
 
 namespace LemonadeStand
 {
@@ -11,7 +11,7 @@ namespace LemonadeStand
     {
        
         public double PriceForLemonade;
-        public double wallet = 20;
+        public double Wallet;
     
         public void MakingLemonade(ref Inventory inventory)
         {
@@ -28,14 +28,14 @@ namespace LemonadeStand
                         item.Quantity -= 4;
                         break;
 
-                    case "IceCubes":
-                        item.Quantity -= 20;
-                        break;
+                    //case "IceCubes":
+                    //    item.Quantity -= 20;
+                    //    break;
 
                    
-                    case "Cups":
-                        item.Quantity -= 20;
-                        break;
+                    //case "Cups":
+                    //    item.Quantity -= 20;
+                    //    break;
 
                 }
 
