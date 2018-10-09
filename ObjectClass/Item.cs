@@ -13,7 +13,7 @@ namespace LemonadeStand
         public string ItemDesc;
         public double Quantity;
         public double Price;
-        public int ExpirationDays;
+        
       
 
 

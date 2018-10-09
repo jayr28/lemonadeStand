@@ -21,7 +21,7 @@ namespace LemonadeStand
         {
             if (day.Temperature >= MinTemperature && day.Temperature <= MaxTemperature )
             {
-                if (player.PriceForLemonade >= MinPrice && player.PriceForLemonade <= MaxPrice)
+                if (player.PriceForLemonade >= MinPrice && player.PriceForLemonade <= MaxPrice)-
                 {
                     if (inventory.items.Where(x => x.ItemId == "1").ToArray()[0].Quantity == 0 ||
                         inventory.items.Where(x => x.ItemId == "2").ToArray()[0].Quantity == 0 ||
